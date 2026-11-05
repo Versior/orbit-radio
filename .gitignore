@@ -1,0 +1,5 @@
+.env
+node_modules/
+data/
+# 内部方案草稿，不公开
+方案.md

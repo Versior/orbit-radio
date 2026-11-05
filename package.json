@@ -1,0 +1,20 @@
+{
+  "name": "orbit-radio",
+  "version": "0.1.0",
+  "private": true,
+  "description": "环听 Orbit：地球就是调频旋钮。转动地球，收听全球 6 万多个电台。",
+  "author": "Versior",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Versior/orbit-radio.git"
+  },
+  "homepage": "https://github.com/Versior/orbit-radio#readme",
+  "scripts": {
+    "start": "node server.mjs",
+    "build:world": "node tools/build-world.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

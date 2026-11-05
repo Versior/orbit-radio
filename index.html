@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>环听 Orbit · 转动地球，收听世界</title>
+  <meta name="description" content="环听 Orbit：地球就是调频旋钮。转到一条经线，听那里此刻的电台；或者追着日落，一晚上听遍半个地球。">
+  <meta name="theme-color" content="#080a0f">
+  <meta name="author" content="遇事开心">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='2' y='2' width='20' height='20' rx='3' fill='%23e2442b'/%3E%3Ccircle cx='12' cy='12' r='5.5' fill='none' stroke='%23f7ebe2' stroke-width='1.6'/%3E%3Cpath d='M12 4v16' stroke='%23f7ebe2' stroke-width='1.2'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-status="idle" data-mode="free">
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6.5" y="5" width="3.6" height="14" rx="1"/><rect x="13.9" y="5" width="3.6" height="14" rx="1"/></symbol>
+    <symbol id="i-prev" viewBox="0 0 24 24"><path d="M6 5v14M19 6l-9 6 9 6z"/></symbol>
+    <symbol id="i-next" viewBox="0 0 24 24"><path d="M18 5v14M5 6l9 6-9 6z"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 8 3.6 4.5 7.2 4.5c2 0 3.6 1.1 4.8 2.8 1.2-1.7 2.8-2.8 4.8-2.8 3.6 0 5.8 3.5 4.5 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></symbol>
+    <symbol id="i-vol" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></symbol>
+    <symbol id="i-mute" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M16 9.5l5 5M21 9.5l-5 5"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M11 3.5l1.9 5.1 5.1 1.9-5.1 1.9L11 17.5l-1.9-5.1L4 10.5l5.1-1.9z"/><path d="M18.5 15.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24"><circle cx="17.5" cy="5.5" r="2.5"/><circle cx="6.5" cy="12" r="2.5"/><circle cx="17.5" cy="18.5" r="2.5"/><path d="M8.7 10.8l6.6-4M8.7 13.2l6.6 4"/></symbol>
+  </svg>
+
+  <canvas id="globe" aria-label="地球。拖动旋转就是调频，滚轮或双指缩放，点击光点收听当地电台。"></canvas>
+  <canvas id="globeFx" aria-hidden="true"></canvas>
+  <span class="pin cur" id="pinNow" hidden><i class="reticle" aria-hidden="true"></i></span>
+  <span class="pin sel" id="pinSel" hidden></span>
+  <div class="globe-tip" id="globeTip" hidden></div>
+  <div class="shade" aria-hidden="true"></div>
+
+  <header class="top">
+    <a class="seal" href="./" aria-label="环听 Orbit，遇事开心 制" title="环听 Orbit · 遇事开心 制">
+      <i aria-hidden="true">环听</i>
+      <i class="name-seal in-head" aria-hidden="true"><b>遇</b><b>事</b><b>开</b><b>心</b></i>
+      <span><b>ORBIT</b><small data-bind="stats"></small></span>
+    </a>
+    <p class="sky" data-bind="sky" aria-live="off"></p>
+    <nav class="top-right" aria-label="快捷">
+      <form class="ask" id="ask" autocomplete="off" role="search">
+        <svg class="ask-icon"><use href="#i-search"/></svg>
+        <input id="askInput" maxlength="200" enterkeyhint="send" placeholder="找电台，或者说想听什么" aria-label="告诉 AI 你想听什么">
+        <kbd aria-hidden="true">/</kbd>
+        <div class="suggest" id="suggest"></div>
+      </form>
+      <button class="tbtn" data-panel="fav" title="收藏（F 收藏当前台）"><span>收藏</span><b data-bind="fav-n">0</b></button>
+      <button class="tbtn" data-panel="recent" title="最近收听"><span>足迹</span></button>
+    </nav>
+  </header>
+
+  <p class="poem" aria-label="坐地日行八万里，巡天遥看一千河。——毛泽东《七律二首·送瘟神》，遇事开心">
+    <span>坐地日行八万里</span><span>巡天遥看一千河</span>
+    <span class="sign"><i class="name-seal" aria-hidden="true"><b>遇</b><b>事</b><b>开</b><b>心</b></i></span>
+  </p>
+
+  <aside class="scale" id="scale" aria-label="沿这条经线的电台">
+    <h3 data-bind="scale-h"></h3>
+    <div class="sc-list" id="scaleList"></div>
+  </aside>
+
+  <section class="read" id="read" aria-label="调频读数">
+    <p class="rd-coord"><em data-bind="status"></em><time data-bind="elapsed"></time><span data-bind="tune"></span></p>
+    <div class="rd-idle">
+      <h1>转动地球，调到一条经线。</h1>
+      <p class="rd-sub">拖动地球就是转旋钮。点经线上的地名收听，或者交给运气。</p>
+      <button class="btn primary" data-act="shuffle"><svg class="f"><use href="#i-play"/></svg><span>随便听听</span></button>
+    </div>
+    <div class="rd-live">
+      <h1 data-bind="name">—</h1>
+      <p class="rd-song" data-bind="song" aria-live="polite"></p>
+      <p class="rd-sub"><span data-bind="place"></span><span class="rd-tags" data-bind="tags"></span></p>
+      <div class="rd-ctrl">
+        <button class="ic" data-act="similar" title="找相似的台" aria-label="找相似的台"><svg><use href="#i-spark"/></svg></button>
+        <button class="ic fav-btn" data-act="fav-cur" title="收藏（F）" aria-label="收藏"><svg><use href="#i-heart"/></svg></button>
+        <button class="ic" data-act="prev" title="同一地点的上一个台（←）" aria-label="上一个台"><svg><use href="#i-prev"/></svg></button>
+        <button class="play" data-act="toggle" aria-label="播放/暂停（空格）"><svg class="f i-play"><use href="#i-play"/></svg><svg class="f i-pause"><use href="#i-pause"/></svg></button>
+        <button class="ic" data-act="next" title="同一地点的下一个台（→）" aria-label="下一个台"><svg><use href="#i-next"/></svg></button>
+        <button class="ic sleep-btn" data-act="sleep" title="定时停止" aria-label="定时停止"><svg><use href="#i-moon"/></svg><small data-bind="sleep"></small></button>
+        <button class="ic" data-act="share" title="分享这条经线和这个台" aria-label="分享"><svg><use href="#i-share"/></svg></button>
+        <a class="ic" data-bind="home" target="_blank" rel="noopener noreferrer" title="电台官网" aria-label="电台官网"><svg><use href="#i-link"/></svg></a>
+      </div>
+    </div>
+  </section>
+
+  <nav class="mode" id="mode" aria-label="调频方式">
+    <button data-mode="free">自由调频</button>
+    <button data-mode="dusk">追着日落听</button>
+    <button data-mode="dawn">追着日出听</button>
+    <p class="mode-tip" data-bind="mode-tip"></p>
+  </nav>
+
+  <div class="hint">
+    <p><b>拖动地球</b> 转旋钮 · <b>↑ ↓</b> 沿经线换台</p>
+    <p><b>[ ]</b> 转旋钮 5° · <b>← →</b> 同一地点换台</p>
+    <p><b>/</b> 找台 · <b>S</b> 随便听 · <b>F</b> 收藏</p>
+    <div class="vol">
+      <button class="ic vol-btn" data-act="mute" aria-label="静音（M）"><svg class="i-vol"><use href="#i-vol"/></svg><svg class="i-mute"><use href="#i-mute"/></svg></button>
+      <input class="range" type="range" data-bind="vol" min="0" max="1" step="0.01" aria-label="音量">
+    </div>
+  </div>
+
+  <aside class="side" id="side" hidden aria-live="polite"></aside>
+
+  <div class="toast" id="toast" role="status"></div>
+  <audio id="audio" preload="none"></audio>
+  <script src="app.js" type="module"></script>
+</body>
+</html>
