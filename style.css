@@ -112,7 +112,7 @@ body[data-status="loading"] .reticle { animation: lockIn .6s var(--spring) both,
 .top-right { display: flex; align-items: center; gap: 8px; }
 .tbtn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 36px; padding: 0 14px; border-radius: 999px;
-  font-size: 13px; color: var(--dim); border: 1px solid transparent;
+  font-size: 13px; color: var(--dim); border: 1px solid transparent; white-space: nowrap; flex: none;
   transition: border-color .24s, background .24s, color .24s, transform .12s;
 }
 .tbtn b { font: 500 12px var(--mono); color: var(--ink); }
@@ -120,6 +120,9 @@ body[data-status="loading"] .reticle { animation: lockIn .6s var(--spring) both,
 .tbtn:active { transform: scale(.96); }
 .tbtn.on { color: var(--ink-dark); background: var(--ink); }
 .tbtn.on b { color: var(--ink-dark); }
+/* GitHub 仓库链接：只有图标的圆钮 */
+.tbtn.gh { width: 36px; padding: 0; }
+.tbtn.gh svg { width: 17px; height: 17px; }
 
 .ask {
   position: relative; display: flex; align-items: center; gap: 8px; width: 240px; height: 36px; padding: 0 8px 0 13px;
@@ -375,6 +378,9 @@ body[data-status="live"] .row.is-current .eq { display: flex; }
   .name-seal.in-head { font-size: 9px; margin-left: -6px; }
   .top-right { gap: 4px; }
   .tbtn { height: 34px; padding: 0 10px; }
+  .tbtn.gh { width: 34px; padding: 0; }
+  /* 再窄的手机放不下整排按钮：收起 ORBIT 字样，两方印章已经表明身份 */
+  @media (max-width: 380px) { .seal span { display: none; } .tbtn { padding: 0 8px; } .tbtn.gh { padding: 0; } }
   /* 搜索收成一个圆钮，点开后铺满顶部 */
   .ask { width: 34px; padding: 0; justify-content: center; }
   .ask input { position: absolute; inset: 0; padding: 0 16px 0 38px; opacity: 0; border-radius: 999px; }
