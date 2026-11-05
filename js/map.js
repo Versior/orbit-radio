@@ -2,7 +2,7 @@
 import { $, $$, esc, regionName, isMobile, fmt, guessRegion, toast } from './util.js';
 import { api } from './radio.js';
 import { S, P } from './state.js';
-import { side, openPlace } from './panel.js';
+import { openPlace } from './panel.js';
 import { onTune, renderSky, takeWheel } from './tune.js';
 import { createGlobe } from '../globe.js';
 import { LANDMARKS, OCEANS } from '../landmarks.js';

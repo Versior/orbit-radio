@@ -284,7 +284,6 @@ orbit-radio/
 │   └── region-name.mjs   # 省州名归一化
 ├── tools/build-world.mjs # 从 Natural Earth 生成 vendor/ 下的地图数据
 ├── vendor/               # 国家与省州的像素索引、中文名
-├── concept/              # 浑天仪设计原型
 ├── Dockerfile
 └── docker-compose.yml
 ```

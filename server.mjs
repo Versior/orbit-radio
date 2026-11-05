@@ -27,7 +27,7 @@ const RATE = { limit: 20, windowMs: 60000 };
 
 const MIME = {
   '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8',
-  '.svg': 'image/svg+xml', '.png': 'image/png', '.ico': 'image/x-icon', '.webmanifest': 'application/manifest+json',
+  '.svg': 'image/svg+xml', '.png': 'image/png',
   '.json': 'application/json; charset=utf-8', '.bin': 'application/octet-stream',
 };
 

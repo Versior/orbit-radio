@@ -72,7 +72,7 @@ const LANGS = [
 
 const LABEL_OF_TAG = Object.fromEntries(GENRES.map((g) => [g.tag, g.label]));
 
-export function timeMood(hour) {
+function timeMood(hour) {
   if (hour < 6) return { tags: ['ambient', 'jazz'], reason: '夜深了，来点安静的' };
   if (hour < 10) return { tags: ['news', 'pop'], reason: '早上好，听听新闻和轻快的歌' };
   if (hour < 14) return { tags: ['lofi', 'pop'], reason: '上午适合专注一点' };
