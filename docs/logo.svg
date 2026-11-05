@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+  <title>环听 Orbit</title>
+  <!-- 朱砂方印：地球 + 赤道刻度环 + 正中的经线指针 -->
+  <g transform="rotate(-2 80 80)">
+    <rect x="10" y="10" width="140" height="140" rx="12" fill="#e2442b"/>
+    <rect x="17" y="17" width="126" height="126" rx="8" fill="none" stroke="#f7ebe2" stroke-opacity=".28" stroke-width="2"/>
+    <circle cx="80" cy="80" r="38" fill="none" stroke="#f7ebe2" stroke-width="6"/>
+    <ellipse cx="80" cy="88" rx="56" ry="15" fill="none" stroke="#f7ebe2" stroke-width="3.2" stroke-dasharray="2.4 4.2"/>
+    <path d="M80 26v108" stroke="#f7ebe2" stroke-width="4.4" stroke-linecap="round"/>
+    <circle cx="80" cy="103" r="5.5" fill="#f7ebe2"/>
+  </g>
+</svg>
