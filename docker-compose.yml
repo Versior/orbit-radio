@@ -1,0 +1,17 @@
+services:
+  orbit:
+    build: .
+    image: orbit-radio
+    container_name: orbit-radio
+    restart: unless-stopped
+    ports:
+      - "8765:8765"
+    # 大模型配置（可选）：复制 .env.example 为 .env 后填写
+    env_file:
+      - path: .env
+        required: false
+    volumes:
+      - orbit-data:/app/data
+
+volumes:
+  orbit-data:
